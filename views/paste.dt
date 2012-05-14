@@ -1,0 +1,25 @@
+!!! 5
+html
+    head
+        title Paste #{p.hind}
+        link( rel="stylesheet", href="/style.css", type="text/css" )
+        link( rel="stylesheet", href="/prettify/xlight.css",  type="text/css")
+        script( type="text/javascript", src="/prettify/prettify.js" )
+    body( onload="prettyPrint()" )
+        div( class="irect" ) #{p.hind}, Syntax: #{languages[p.lang]}, Lines: #{p.linec}, Characters: #{p.charc}, Date: #{p.time}
+        br
+        - string pr;
+        - if ((p.lang != "text" && p.lang != "")) {
+        -   pr = "prettyprint " ~ p.lang;
+        - }
+        code( class="#{pr}" )
+            ol
+                - foreach (int i, string line; p.lines)
+                    - if (i % 2 == 0)
+                        li( class="ev" )!=line
+                    - else
+                        li!=line
+        div( class="irect" ) Raw data
+        textarea( name="text", cols="80", rows="25", class="rrect" ) #{p.raw}
+        br
+        a( href="/", class="button" ) New paste

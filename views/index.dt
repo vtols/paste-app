@@ -1,0 +1,14 @@
+!!! 5
+html
+    head
+        title Create your paste
+        link( rel="stylesheet", href="/style.css", type="text/css" )
+    body
+        div( class="irect" ) Already #{counter} pastes. Your new paste below
+        form( action="/newpaste", method="post" )
+            textarea( name="text", cols="80", rows="25", class="rrect" )
+            br
+            select( name="lang", class="button" )
+                - foreach (string key; languages.keys)
+                    option( value="#{key}" ) #{languages[key]}
+            input(type="submit", value="Paste", class="button xbutton")
