@@ -61,20 +61,23 @@ struct PasteData {
             return "<br>";
         line = vibe.textfilter.html.htmlEscape(line);
         string result = "";
-        bool start = true;
+        int k = 0;
         foreach (char c; line) {
-            if (start && c == ' ')
-                result ~= "&nbsp;";
-            else if (start && c == '\t')
-                result ~= replicate("&nbsp;", 4);
-            else {
-                start = false;
-                if (c == '\n' || c == '\r')
+            switch (c) {
+                case '\n':
+                case '\r':
                     break;
-                if (c == '\t')
-                    result ~= replicate("&nbsp", 4);
-                else
+                case ' ':
+                    result ~= "&nbsp;";
+                    k++;
+                    break;
+                case '\t':
+                    result ~= replicate("&nbsp;", 4 - k % 4);
+                    k += 4 - k % 4;
+                    break;
+                default:
                     result ~= c;
+                    k++;
             }
         }
         return "<div>" ~ result ~ "</div>";
@@ -118,8 +121,8 @@ static this() {
         formattedRead(s, "%d", &counter);
     } catch (Exception) { }
     initLanguages();
-	auto router = new UrlRouter;
-	router.get("/", &handleIndex);
+    auto router = new UrlRouter;
+    router.get("/", &handleIndex);
     logInfo("route /");
     router.get("*", serveStaticFiles("./public/"));
     router.post("/newpaste", &handleNewPaste);
