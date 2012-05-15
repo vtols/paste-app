@@ -1,0 +1,9 @@
+!!! 5
+html
+    head
+        title Empty paste
+        link( rel="stylesheet", href="/style.css", type="text/css" )
+    body
+        div( class="irect" ) Your paste is empty. Retry please
+        br
+        a( href="/", class="button" ) Retry

@@ -94,6 +94,10 @@ void handleNewPaste(HttpServerRequest req,
                  HttpServerResponse res) {
     string text = req.form["text"],
            lang = req.form["lang"];
+    if (text == "") {
+        res.render!("empty.dt");
+        return;
+    }
     string fn = "paste/" ~ to!string(counter++);
     try {
         mkdir("data/paste");
